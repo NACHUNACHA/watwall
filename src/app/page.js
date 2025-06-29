@@ -215,7 +215,7 @@ export default function Home() {
           <p>
             The area at the end of the road, which the gentleman guide points
             to, is the location of a large domed building situated on a low hill
-            that likely represents the "city of happiness," which can be defined
+            that likely represents the &quot;city of happiness,&quot; which can be defined
             as a city with happiness, fair law enforcement, and rulers who must
             be accepted by all people.
           </p>
@@ -224,7 +224,7 @@ export default function Home() {
             from the United States Capitol building in Washington, D.C., which
             is situated on a low hill similar to the mural painting and serves
             as an important symbol of American democracy, a country that at that
-            time was called "civilized" like the city of happiness.
+            time was called &quot;civilized&quot; like the city of happiness.
           </p>
           <p>
             The building with a truncated dome top, located behind the gentleman
