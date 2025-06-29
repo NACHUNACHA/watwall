@@ -231,18 +231,6 @@ export default function Home() {
             guide, is expected to represent the United States Capitol building.
           </p>
         </div>
-        {/*  onClick={() => {*/}
-        {/*  setOpenDetailsFor("blissful");*/}
-        {/*  gsap.to("#blissful-text", { y: 200, duration: 1 });*/}
-        {/*  gsap.to("#blissful-image", {*/}
-        {/*    opacity: 1,*/}
-        {/*    duration: 1,*/}
-        {/*    y: -150,*/}
-        {/*    x: -40,*/}
-        {/*  });*/}
-        {/*}}*/}
-        {/*  {openDetailsFor === "blissful" && (*/}
-        {/*)}*/}
         <div
           id="blissful-bg"
           className="absolute h-[650px] w-full z-20 -bottom-40 opacity-0"
@@ -252,10 +240,6 @@ export default function Home() {
         </div>
       </div>
       <div className="px-8 flex flex-col items-center justify-center h-screen bg-[url('/PANORAMIC2.png')] bg-cover bg-center"></div>
-      {/*<div*/}
-      {/*  id="blissful"*/}
-      {/*  className="flex flex-col p-8 gap-8 items-center h-screen bg-[url('/PANORAMIC1.png')] bg-cover bg-center"*/}
-      {/*>*/}
     </div>
   );
 }
