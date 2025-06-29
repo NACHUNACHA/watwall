@@ -3,6 +3,7 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useState } from "react";
 
 export function Nav() {
   return (
@@ -17,6 +18,8 @@ export function Nav() {
 }
 
 export default function Home() {
+  const [openDetailsFor, setOpenDetailsFor] = useState("");
+
   gsap.registerPlugin(useGSAP);
   gsap.registerPlugin(ScrollTrigger);
 
@@ -24,83 +27,124 @@ export default function Home() {
     gsap.from(".flower", { opacity: 0, duration: 1 });
     gsap.from(".text", { y: 50, opacity: 0, duration: 1, stagger: 0.2 });
 
-    gsap.to("#text-explore", {
-      scrollTrigger: {
-        trigger: ".explore",
-        start: "top top",
-        end: "+=800 top",
-        pin: true,
-        markers: true,
-        scrub: true,
-        toggleActions: "play none reverse reverse",
-        onUpdate: (self) => {
-          if (self.progress > 0.2) {
-            gsap.to("#text-explore", {
-              opacity: 0,
-            });
-          }
-          if (self.progress > 0.6) {
-            gsap.to("#logo-explore", {
-              y: 350,
-              scale: 0.5,
-              duration: 1,
-              ease: "power1.inOut",
-            });
-          }
-        },
-      },
-    });
-
     ScrollTrigger.create({
       trigger: ".next",
       start: "top top",
-      end: "+=950 top",
-      endTrigger: "#text-explore",
+      end: "+=1500 top",
       pin: ".box",
-      pinSpacing: false,
-      markers: true,
       toggleActions: "play none reverse reverse",
     });
 
     ScrollTrigger.create({
       trigger: "#blissful",
       start: "top top",
-      end: "+=1500 top",
+      end: "+=20000 top",
       pin: true,
-      markers: true,
       toggleActions: "play none reverse reverse",
     });
 
-    gsap.to("#blissful-image", {
+    gsap.to("#text-explore", {
       scrollTrigger: {
-        trigger: "#blissful",
+        trigger: "#logo-explore",
         start: "top top",
-        end: "+=1500 top",
+        end: "+=1000 top",
         scrub: true,
-        markers: true,
+        toggleActions: "play none reverse reverse",
       },
-      scale: 1.5,
       duration: 1,
-      ease: "power1.inOut",
+      opacity: 0,
+      ease: "elastic",
     });
 
-    gsap.to("#blissful-text", {
+    gsap.to("#logo-explore", {
       scrollTrigger: {
-        trigger: "#blissful",
-        start: "top top",
-        end: "+=1500 top",
+        trigger: "#text-explore",
+        start: "bottom top",
+        end: "+=1200 bottom",
         scrub: true,
-        markers: true,
+        toggleActions: "play none reverse reverse",
       },
-      y: -80,
-      duration: 1,
-      ease: "power1.inOut",
+      onComplete: () => {
+        gsap.to("#logo-explore", {
+          opacity: 0,
+        });
+      },
+      opacity: 1,
+      duration: 3,
+      scale: 0.5,
+      y: 250,
+      delay: 5,
     });
+
+    gsap.fromTo(
+      "#blissful-text",
+      { opacity: 0, duration: 1 },
+      {
+        scrollTrigger: {
+          trigger: "#logo-explore",
+          start: "bottom bottom",
+          end: "+=4000 top",
+          scrub: true,
+        },
+        y: -150,
+        opacity: 1,
+        duration: 1,
+        ease: "power1.inOut",
+      },
+    );
+
+    gsap.fromTo(
+      "#blissful-image",
+      { opacity: 0, duration: 1 },
+      {
+        scrollTrigger: {
+          trigger: "#blissful-text",
+          start: "bottom bottom",
+          end: "+=5000 bottom",
+          scrub: true,
+        },
+        opacity: 1,
+        scale: 1.5,
+        duration: 1,
+        ease: "power1.inOut",
+        onComplete: () => {
+          gsap.to("#blissful-text", {
+            y: 150,
+          });
+
+          gsap.to("#blissful-image", {
+            y: -200,
+            x: -40,
+          });
+
+          gsap.fromTo(
+              "#blissful-details",
+              { opacity: 0, duration: 1 },
+              {
+                opacity: 1,
+                duration: 1,
+                ease: "power1.inOut",
+              },
+          );
+
+          gsap.fromTo(
+            "#blissful-bg",
+            {
+              opacity: 0,
+              duration: 1,
+            },
+            { opacity: 1, duration: 1 },
+          );
+        },
+      },
+    );
+
   });
 
   return (
-    <div>
+    <div className="w-full">
       <Nav />
+
       <div className="flower relative min-h-screen h-full bg-[url('/lotus.png')] bg-center bg-cover bg-no-repeat">
         <div className="h-screen flex flex-col gap-2 px-8 py-6 justify-end">
           <div className="z-30">
@@ -132,41 +176,86 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="explore flex flex-col items-center justify-center h-screen bg-[url('/lotus.png')] bg-cover bg-center">
-        <Image
-          src="/explore.svg"
-          alt="explore"
-          width={48}
-          height={48}
-          id="logo-explore"
-        />
-        <p id="text-explore" className="text-center text-sm bg-gradient">
-          Explore deeper Layers
-        </p>
-      </div>
-
       <div
         id="blissful"
-        className="flex flex-col p-8 gap-8 items-center h-screen bg-[url('/lotus.png')] bg-cover bg-center"
+        className="flex flex-col items-center justify-center min-h-screen h-full bg-[url('/PANORAMIC1.png')] bg-cover bg-center"
       >
+        <div className="absolute m-auto flex flex-col items-center gap-2">
+          <Image
+            src="/explore.svg"
+            alt="explore"
+            width={48}
+            height={48}
+            id="logo-explore"
+          />
+          <p id="text-explore" className="text-center text-sm">
+            Explore deeper Layers
+          </p>
+        </div>
+
         <div
           id="blissful-text"
-          className="w-full flex flex-col items-start mt-30 gap-2"
+          className="px-8 z-30 w-full flex flex-col items-start gap-2"
         >
-          <p className="text-2xl uppercase ">The Blissful city</p>
+          <p className="text-2xl uppercase z-30">The Blissful city</p>
           <p className="text-xs">Metaphor for sangha</p>
         </div>
         <Image
           id="blissful-image"
           src="/US-Capital.png"
           alt="blissful"
+          className="absolute right-11 bottom-30 z-30"
           width={200}
           height={200}
         />
+        <div
+          id="blissful-details"
+          className="absolute top-[440px] flex flex-col justify-end gap-2 h-full px-8 z-30 opacity-0"
+        >
+          <p>
+            The area at the end of the road, which the gentleman guide points
+            to, is the location of a large domed building situated on a low hill
+            that likely represents the "city of happiness," which can be defined
+            as a city with happiness, fair law enforcement, and rulers who must
+            be accepted by all people.
+          </p>
+          <p>
+            It can be assumed that this domed building likely has its prototype
+            from the United States Capitol building in Washington, D.C., which
+            is situated on a low hill similar to the mural painting and serves
+            as an important symbol of American democracy, a country that at that
+            time was called "civilized" like the city of happiness.
+          </p>
+          <p>
+            The building with a truncated dome top, located behind the gentleman
+            guide, is expected to represent the United States Capitol building.
+          </p>
+        </div>
+        {/*  onClick={() => {*/}
+        {/*  setOpenDetailsFor("blissful");*/}
+        {/*  gsap.to("#blissful-text", { y: 200, duration: 1 });*/}
+        {/*  gsap.to("#blissful-image", {*/}
+        {/*    opacity: 1,*/}
+        {/*    duration: 1,*/}
+        {/*    y: -150,*/}
+        {/*    x: -40,*/}
+        {/*  });*/}
+        {/*}}*/}
+        {/*  {openDetailsFor === "blissful" && (*/}
+        {/*)}*/}
+        <div
+          id="blissful-bg"
+          className="absolute h-[650px] w-full z-20 -bottom-40 opacity-0"
+        >
+          <div className="absolute inset-0 z-10 w-full h-full bg-gradient-orange"></div>
+          <div className="absolute inset-0 z-0 w-full h-full bg-gradient-orange-dodge"></div>
+        </div>
       </div>
-      <div className="end flex items-center justify-center min-h-screen bg-[url('/lotus.png')] bg-cover bg-center">
-        <p className="text-center text-sm ">END</p>
-      </div>
+      <div className="px-8 flex flex-col items-center justify-center h-screen bg-[url('/PANORAMIC2.png')] bg-cover bg-center"></div>
+      {/*<div*/}
+      {/*  id="blissful"*/}
+      {/*  className="flex flex-col p-8 gap-8 items-center h-screen bg-[url('/PANORAMIC1.png')] bg-cover bg-center"*/}
+      {/*>*/}
     </div>
   );
 }
